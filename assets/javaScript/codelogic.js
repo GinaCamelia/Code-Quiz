@@ -35,5 +35,32 @@ function showQuestion() {
     }
 }
 
+// Check if andswer is correct
+function checkAnswer(event) {
+    const clickedAnswer = event.target.textContent;
+    if(clickedAnswer === questions[currentQuestion].correctAnswer){
+        // correct answer + move to the next question
+        currentQuestion++;
+        // if all questions are correct
+        if(currentQuestion === questions.length){
+            endQuiz();
+        } else {
+            showQuestion();
+        }
+        feedbackUser.textContent = 'Correct👌';
+    } else {
+        //substract 10 seconds from the timer
+        remainingTime -= 10;
+        updateTime();
+        feedbackUser.textContent = 'Incorrect👎'
+    }
+    //remove the class of hide to show feedback
+    feedbackUser.removeAttribute('class', 'hide');
+    // set time for how long to display feedback
+    setTimeout(function(){
+        feedbackUser.setAttribute('class', 'hide');
+    }, 1500);
+}
+
 
 startBtn.addEventListener('click', startQuiz);
