@@ -89,26 +89,38 @@ function endQuiz() {
 function saveScore() {
     const initials = userInitials.value.trim;
 
-    //Save the score and initials to local storage
-    localStorage.setItem('initials', initials);
-    localStorage.setItem('finalScore', remainingTime);
+    // create object to store initials and score
+    let score = {
+        score: remainingTime,
+        userInitials: initials,
+    };
 
-    //Show message to the user
+    //check for existing score
+    if (localStorage.getItem('score')) {
+        // convert the JSON string stored in the local storage into a JavaScript array.
+        let existingScore = JSON.parse(localStorage.getItem('score'));
+        existingScore.push(score);
+        // convert the updated array of scores back into a JSON string.
+        localStorage.setItem('score', JSON.stringify(existingScore));
+
+        //If there is no existing score stored in the local storage
+    } else {
+        // creates a new array with the new score object
+        let highscore = [score];
+        // stores the new array of scores in the local storage to convert the array into a JSON string
+        localStorage.setItem('highscore', JSON.stringify(highscore));
+    }
+
+    //Redirect user
     feedbackUser.textContent = location.href = 'highscores.html';
-    // feedbackUser.style.display = 'block';
-
 }
 
-
-
-
-
-
-
-
-
-
-
+function pressEnter(event) {
+    if (event.key === "Enter") {
+      saveScore();
+    }
+  }
 
 startBtn.addEventListener('click', startQuiz);
 submitBtn.addEventListener('click', saveScore);
+userInitials.addEventListener('keyup', pressEnter);
