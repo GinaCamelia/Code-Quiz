@@ -1,23 +1,27 @@
-//Store id's into variables
+//Initialize variables
 let viewHighScores = document.querySelector('#highscores');
-let clearButton = document.querySelector('#clear');
+const clearButton = document.querySelector('#clear');
 
-// global variable to store the current score 
-let currentScore = 0;
+function updateScore() {
+    let highScore = JSON.parse(localStorage.getItem('highscore')) || [];
 
-function updateScore(isCorrect) {
-    
-    // update the Score TODO
+    // sort in ascending order
+    highScore.sort((a, b) => a - b);
+    // reverse the order 
+    highScore.reverse();
+
+    highScore.forEach(score => {
+        let listItems = document.createElement('li');
+        listItems.textContent = score.userInitials + ' - ' + score.score;
+        viewHighScores.appendChild(listItems);
+    });
 }
 
-function clearScore() {
-    currentScore = 0;
-    // update the score
+function clearScores() {
+    window.localStorage.removeItem("highscore");
+    window.location.reload();
 }
 
-// clear the highscore from localStorage
-
-localStorage.removeItem('highscores');
-clearButton.addEventListener('click', clearScore);
+clearButton.addEventListener('click', clearScores);
 
 updateScore();
