@@ -62,5 +62,26 @@ function checkAnswer(event) {
     }, 1500);
 }
 
+// update the time remaining
+function updateTime() {
+    timeId.textContent = remainingTime;
+    remainingTime--;
+    if(remainingTime <= 0){
+        clearInterval(timeInterval);
+        endQuiz();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 startBtn.addEventListener('click', startQuiz);
