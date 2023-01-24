@@ -67,9 +67,36 @@ function updateTime() {
     timeId.textContent = remainingTime;
     remainingTime--;
     if(remainingTime <= 0){
-        clearInterval(timeInterval);
+        // clearInterval(timeInterval);
         endQuiz();
     }
+}
+
+
+// End of the quiz
+function endQuiz() {
+    clearInterval(timeInterval);
+    const finalScore = document.querySelector('#final-score');
+    finalScore.textContent = remainingTime;
+    const endScreen = document.querySelector('#end-screen');
+    endScreen.style.display = 'block';
+    userInitials;
+    submitBtn;
+    // submitBtn.addEventListener('click', saveScore);
+}
+
+// Save the score with initials
+function saveScore() {
+    const initials = userInitials.value.trim;
+
+    //Save the score and initials to local storage
+    localStorage.setItem('initials', initials);
+    localStorage.setItem('finalScore', remainingTime);
+
+    //Show message to the user
+    feedbackUser.textContent = location.href = 'highscores.html';
+    // feedbackUser.style.display = 'block';
+
 }
 
 
@@ -83,5 +110,5 @@ function updateTime() {
 
 
 
-
 startBtn.addEventListener('click', startQuiz);
+submitBtn.addEventListener('click', saveScore);
