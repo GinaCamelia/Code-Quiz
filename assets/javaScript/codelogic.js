@@ -72,7 +72,6 @@ function updateTime() {
     }
 }
 
-
 // End of the quiz
 function endQuiz() {
     clearInterval(timeInterval);
@@ -85,32 +84,20 @@ function endQuiz() {
 
 // Save the score with initials
 function saveScore() {
-    const initials = userInitials.value.trim;
+    const initials = userInitials.value.trim();
 
-    // create object to store initials and score
-    let score = {
+    if(initials !== ''){
+    let existingScore = JSON.parse(localStorage.getItem('highscore')) || [];
+    let newScore = {
         score: remainingTime,
         userInitials: initials,
-    };
-
-    //check for existing score
-    if (localStorage.getItem('score')) {
-        // convert the JSON string stored in the local storage into a JavaScript array.
-        let existingScore = JSON.parse(localStorage.getItem('score'));
-        existingScore.push(score);
-        // convert the updated array of scores back into a JSON string.
-        localStorage.setItem('score', JSON.stringify(existingScore));
-
-        //If there is no existing score stored in the local storage
-    } else {
-        // creates a new array with the new score object
-        let highscore = [score];
-        // stores the new array of scores in the local storage to convert the array into a JSON string
-        localStorage.setItem('highscore', JSON.stringify(highscore));
     }
+    existingScore.push(newScore);
+    localStorage.setItem('highscore', JSON.stringify(existingScore));
 
     //Redirect user
-    feedbackUser.textContent = location.href = 'highscores.html';
+    window.location.href = 'highscores.html';
+    }
 }
 
 function pressEnter(event) {
