@@ -37,6 +37,7 @@ function showQuestion() {
 
 // Check if andswer is correct
 function checkAnswer(event) {
+    event.preventDefault();
     const clickedAnswer = event.target.textContent;
     if(clickedAnswer === questions[currentQuestion].correctAnswer){
         // correct answer + move to the next question
@@ -47,19 +48,19 @@ function checkAnswer(event) {
         } else {
             showQuestion();
         }
-        feedbackUser.textContent = 'Correct👌';
+        feedbackUser.textContent = 'Correct 👌';
     } else {
         //substract 10 seconds from the timer
         remainingTime -= 10;
         updateTime();
-        feedbackUser.textContent = 'Incorrect👎'
+        feedbackUser.textContent = 'Incorrect 👎'
     }
     //remove the class of hide to show feedback
     feedbackUser.removeAttribute('class', 'hide');
     // set time for how long to display feedback
     setTimeout(function(){
         feedbackUser.setAttribute('class', 'hide');
-    }, 1500);
+    }, 500);
 }
 
 // update the time remaining
@@ -67,7 +68,6 @@ function updateTime() {
     timeId.textContent = remainingTime;
     remainingTime--;
     if(remainingTime <= 0){
-        // clearInterval(timeInterval);
         endQuiz();
     }
 }
@@ -76,13 +76,11 @@ function updateTime() {
 // End of the quiz
 function endQuiz() {
     clearInterval(timeInterval);
+    const endScreen = document.querySelector('#end-screen');
+    endScreen.removeAttribute('class');
     const finalScore = document.querySelector('#final-score');
     finalScore.textContent = remainingTime;
-    const endScreen = document.querySelector('#end-screen');
-    endScreen.style.display = 'block';
-    userInitials;
-    submitBtn;
-    // submitBtn.addEventListener('click', saveScore);
+    questionsId.setAttribute('class', 'hide');
 }
 
 // Save the score with initials
